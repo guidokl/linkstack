@@ -55,6 +55,6 @@ This repository hosts a static, mobile-friendly HTML interface for quick access 
 * [r/de_EDV](https://www.reddit.com/r/de_EDV/)
 * [KDnuggets](https://www.kdnuggets.com/)
 
-### Lifestyle
+### Memes
 * [A Programmer Life](https://www.aprogrammerlife.com/)
 * [ProgrammerHumor.io](https://programmerhumor.io/)
