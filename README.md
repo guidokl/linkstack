@@ -4,7 +4,7 @@ A collection of links about IT and software development websites.
 
 ## Live Page
 
-https://guidokl.github.io/devitreads/
+https://guidokl.github.io/linkstack/
 
 ## Overview
 
