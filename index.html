@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkstack</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --hover-bg: #2c2c2c;
+            --accent: #4a90e2;
+            --separator: #333333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px 10px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--separator);
+            padding-bottom: 15px;
+        }
+
+        .bookmark-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bookmark-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: transform 0.1s ease, background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .bookmark-item:active {
+            transform: scale(0.98);
+            background-color: var(--hover-bg);
+        }
+
+        .bookmark-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .bookmark-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .bookmark-name {
+            font-size: 1rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        hr.separator {
+            border: 0;
+            height: 1px;
+            background: var(--separator);
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        /* Footer Styling */
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            color: var(--text-main);
+        }
+
+        /* Scrollbar styles for desktop */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h3>> linkstack_</h3>
+    
+    <div class="bookmark-list">
+        <a href="https://news.ycombinator.com/news" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABT0lEQVR4nJSSP0sDQRDFf3vZQP43ooJNKrWw1UYrQSyDoEUExc5PIDZCQP0IVtrZiU20shaLFCkstDKQSrEIKogaopdddzeaXM4YyHDFDPNm3pu3J/UmA4XXSTUID0/+5LYUrhQ2/w0ZQMOHwlekXG6+T03dJ+FQLUCHwSz7grkV8gVk1LYbkJ1ifZ+xcdsSoluSqX2zpklul5lV6q6dP2Bxm9cnh9LdA0qREFwVub0gt2fbE9NMznO8Qe0Z6bXPCBxtNBqtZzsMZZldYmGLWpXSKSlh14nQ0cKRxAV315RPWDskOczRMg1F0kPpXrYKpzMiOC+QHqFySblodQbWhySZAU1U81jh5Z5qiXfTj/DvwwVJlG8fUbgVos9AmyczSiyN6tjfDhlGtwDGq4cb4saJZrjf++d7gyjEcCT9GVoGZiRahfzpK8kcDX/RJr4BAAD//7npv5oAAAAGSURBVAMAqUFm7G1CuGQAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Hacker News</span>
+        </a>
+
+        <a href="https://www.heise.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACh0lEQVR4nGxTS2gTURS9bzKZpPm4kIC0iyAGDKhoqGitbbBqQcHShQsRRaFu6qJuRFx0J5iiuKygVWxFseC3olQsVKSkKgouREQEg6KiWC0W+8kkM/Oe544vIUUHzsx7993PuXPPMwiPUkqQfrBuAc4DbwBbSmnrNdtaavz8mNrAMD59QA8QpP8/DnAW6BVC2H4CBBr4hoB7QDsgYZNwYLvxe25BLYlFuJDLe41xoBMoGXCUWOR0cFmzMdnx+KnLKtl8iI7mBpXneab6e1bWvjmOZQZN2EzqdoTreYYZCKiXr9+Ltr29xEHRuhAVJi6qWDQMfwI738xoZTpdgKkNApT874XhMXI9yRVp55b1ZFmmcFxP6UJKx3TxK6sNhudJYRiC3hW+0P1HL/zKjuPS4f07yAqalX/m19ExWV6kKvT5HH3R4I1x+jkzS0W7TO3ZDGVWraAzA3doZOwZ8TlyCD3GlFmZD+ZNgYBBn7/+oOujeYpHwzS/UKKegx10+txtOnHyEsXrE9SwbKlqyqThr/xkzKDAdKTmdmXkMX2b+kWlkkPbN6+jZEOCBoYfUmJ5PYWsYEU7aNVg/wInyLMBf56mpmfUtbsTKhYJk+tK6kbvtx48pWm0Y6MdVFYbMyuV1gQnynOCIdRmA716+1F9+PRdzBdttSadpK2b1tLN0Um/tbLjKCQEaQxfyoqwhlhIzyG8fp5C4+qU29yYlvFoRBzr3q3isTra09GqQpal9nW2iV3bNqBzKoN+AP79HPuPlF0M3y45EqKpamN2riiRjBUb0NSrUl50mTCIPsOgI1ok2o4IUfVxUHXxZdIH2PsK9K8zejwAmlmtEU5SQJt52K7C70ltzB8AAAD//7VfWCYAAAAGSURBVAMADhJAFKO88DsAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Heise online</span>
+        </a>
+
+        <a href="https://www.golem.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACeUlEQVR4nHRTTUwTQRT+ZjqULqVNAaPYpCKC4IEfIR68EC8mxIOJBz0ZTmqiNz2KePPiQRLucqohUY8mhsRISAwHIxHBhBC0JBUbQVrasG3tbrc7vp3dbdMYt/0ms/Pe937mfcsBRAgvCGWCRbAVGJMswBXAmayfuz5ljxNh3uYmwXECGP2cv3Rf6w/zFlk3OCcLzlLzyA6V0045tPd1s/BgHJQd5e970LcyjQRSVaI4zCvLN8hQvIMNzE4hdmUEIhpVBqukQ1/axPaDJEqpfen7+mXYbtmQwWNRNr40jdDQGVhmEeXVNNVno228ByIcgZHKYO3SE1Qyh/Ugws1OfFuid+aaIhuZPXy7PY/s4rqKHJs4h8HkXYT7+nF2bgpfr8+5HLoOrqogsohorOPqeQpk4+fsoiI7/Tt15j9sYfvOcxRW1hUx0NaqOA5X+JFCiU6I41HUrD8oLG8qMo0QsQu94FoQsmgiPb3gds0awxH+RqJxr4xz19gewsjyIwS1Lhp+iYKbEELg09g09C9plUT4867s5lD9fQTtdBydl4dwtLoDq2xi99lbsJYAohODaBvrgW1UIW3by+regaM01PSKPHyzpqLG70/i5I2LIA1i5/FrZJMraIlq1DD3q/fFJJvH2Blho+8fIjzaT1kqMDZ/KeFpwwlysmFm8gh2x/B5fEYWN34wR+Lci6e6N3O63Jh8ioPkMqx8Ga1DCYSGT6F6oCN1ax65lx/BDS6laTGXJfFfKWuJLqb1nYC0bJS2MjCzuhTUhmjXmLFfsGXNrkv534/JE1bTw+tnTR9TgJZ3hARhwHFTBjc2KYY3Zi79BMwZgUF4Rbj3FwAA//9TU5iDAAAABklEQVQDAKNKC5yO/NM3AAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Golem</span>
+        </a>
+
+        <a href="https://www.infoq.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACtElEQVR4nExTXUhUQRT+7tx73c00/2hZ8ycEQwwtDQMLLI0IhKSnoh6DoLcgKCiIegtfeujFh8SHIqGICF8STK0gwi0LM7ByCY1N09ZNXddd1zt3pjNzV3fnMsyZc2a+7zvnzLWW19Y6DMmGoYYBb0gyyZYSWbeh3dqWmTPSECeNeCLprKW4lUxzBIv924dyRzzF4bMZ8iyWy6EGZ4yo+t/O4uL9EEzLhNobLDPJDk3/w/GbI7j77BtMxrRPxZiaZFtqQ1qgvuXEJq72fkJZoQ8r65u4c6ERPYNhWKaBln1lGAjN4dHoDEoKbFzpqsOBmmJoBRAS3HGx6Qh8+BHD/r3FiCylMDSxiJbaUuzaYSNQ5Mft/kmcaa0iAj9uPZ7UCpiSlK2MAZdAug5XIljkA+cCNYEC2CaDn2rgUOxcWzWO1JUhHIkTO4PFMrnq67nVE1KDCloFAdXuKcTOPBPXHozj558EjjUE6IiE4XDuTP1atSLRJNoadmNwfB6dLRWUShTB0nxiAMLzCZxqDuJ7ZBXDXxZR4LdxlpRYhhBG2nEcYrJ0a4hN6mwk+kLPMTD1Gvm2H+cPduJ0fft2XEjhvQMpBVNOJUUIoQNCuHg6MYjuN304WtOE6pJyXH95Dx8jX8HpjOu6NAV4ZlquzlXqlKEAaH01PYZDFfW40X4JqY00RqbGMBoOoTFQp1+nlB6pFAqAELHl0EEC4S4EVTyddqi9Akwy3TKllquYPuulY5GDKdNLxUNvrWpC90gvet49QSyxjFhyBc2V9dggQM0Oua3C+Lu04tKGZRUQi8vx8PMLDE2/p+drql5jZmkOQ5f7ILnhseuCEsDcQozKQBplFnVr9eXZsOj/UHVYSEZRVViO+HpyqwMewOzvaAc1Zjj3slKiQVVa8OqiLrmexAwA1cpgJ/4DAAD///sCZnYAAAAGSURBVAMA3finxz3NVX8AAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">InfoQ</span>
+        </a>
+
+        <a href="https://www.theregister.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABLUlEQVR4nKTSvUoDQRDA8T0TUJAU2lmICGIjgmhhJ4iVlfgNgm/gW/gGFpZaK8ZCrCxEO0sVUYggWFiIJoQU+YKE/Iebg81kOQIZ+JFjbmdus7NZN2BkU/I7WMQECsjj3S6MAsUzuMa8ydewh9u0BvLlJyy5cDxg1U8MmQUbWlzCV6DBnE3YBtOo4hCTgQaFtAay/QVs4x7NQIO8TSRTyOEGy/jHAUbN2jrOTS4X6S7usGZetvRdctCX2NfnEazgURYcmWL50oXu5tPLv+qvTOFYitGQ7nLacngvOMEVKt5Xd/X5G7/6F7ek2OkWP1DEOs68Yoln73kKf9hMiiUy+MEsTl1vvLn4So+7+AbKhLqmk/G21kbZNJDzkJGOuXgyPaP1r/Kwv7V+I3IDRgcAAP//yyke8gAAAAZJREFUAwBkfjsH/p80+wAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">The Register</span>
+        </a>
+
+        <a href="https://dev.to/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABz0lEQVR4nFxSwW4TMRC1x94tUkPJ5hDagpQPKIQDuZVDjqz4GCouiN+gUvmA8gn0VE4UCY5I8AWobIJIVlRq0k3W9vTZTpM2o5V3NJ43fm9m9PmfsWDBUkgWgpkkORgbIi1EiEuJOH4iGImVMe6ss6Qoa2bIBBAR9iacdewYXwRwRCC2kd4bFIOjow+kxIPmljUWYSEFquCUIBBTZQCxc0mSDIbF23cHL/b3Tz6dpBvpkkAkFQGev/Qof1z8v8jzV+fF78PD90ppDs/zgoTQN/W9LK9P8Lj8l+d5q9Xabj/SSkEB0RpgZRKsiqIwtsqyZvdZ1xizVHgLEAj5GuiG4y9nZ9+/fd3be9J9+jxJ0+nVZexqPEGRAxXCMKCodvb1wZtxWf789WN79zE6K5jucPCD8xI4thyoxv1GVVXHxx/7/X6n05nNqqBOLkoDwEERfCKVJHo+r+Fn2dZkcjWf1WDrnI3ZK9HSb4Q9Pf1cluXuzk5tzN/hsP2wPZ1MSak8f0lEEaNv70Wv1xuNRmio1rosx5ubDQrvyptFWteAMcGstdAKxyvGYuBpa2WcbaS0VGxq2NwvKMmqqtEAOGKRKdcoRSWeAXuJ0ZdhSHcGdw0AAP//wPYKpAAAAAZJREFUAwDPxQJhB6vy2QAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">DEV Community</span>
+        </a>
+
+        <a href="https://app.daily.dev/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADE0lEQVR4nDRTTWhcVRT+zrn3vjtvJrGj8aeBmAhBLKgBUWIjZKQoCO5cCXYllCroytpuxJUiGLDiorhyq+BORZFqW2vSH/qzKS0ppasuSiDTZpJ03ry/e0/PS9uBb5h573zf+fuOFQgRSE4s9Oct+0MRWAyQichwQYCAiFoDAqiKRP0asjyssu8OnJu88ICrn9MLmx94mx7TgO4oFqiVpCIPoSIape/0H4NNglJkUNTZJx+uPPEzLb8+fBVOThPZTh7LSjNbBYKmrx+SaxatgaSSRphq4sRVqIaa4E2Otj5iyCu5qMXAVnWkfDM2WaghhgbaSralzypQkyCXQkVanQo4zBG0mIuGG+J8GCmdMjJ7ICGkhEpLaIAEmPvI065ZK3muaoa5kEJ0Pj2rPU6IyhSZUDrDMn+0jc4Uo/uyxdmvMwQl9L5sY7rnIOmINu4Ao+0IcVoZ0QRrSUlZBvLThL0/dBA50vlvt7B73mD6HYM3vkjxrJL/PDzA8E7E3Pte3C6dS2gGi4S1PwkG8to3bfgnif75tC+Xfurjj4/XMbPP4bm3Hf76vI9rf29i9cQ2TFtoz7tOswuicrnSH4XK3fpvBNsiTL2VwD4e8NL+Dp6eS/D7kTVcPT4AdwK6s7oSE7F2s0QV486GbGOUqN8Xj91FSGp54b0xeuYVj+mFNn47dBur/96Df8xiZm8Hz+8bw+rJDDfPBaGWVXNFYh2yLg7gcWDl+3Vc+WVTntrjH5CPb8GP625Th8kX27h+KsONM4WQl6b/xmQl/drbuB0k7s7CSPI44qYv2yXaXg8wqQ4HCuNALUae1c26CWyjcKKOwppWQMtsdOlkojFeIjMNN0Rs26mV1ADGq+MNyhH0ITdkqTWWTIv0bpZZ3blUqC2tHbMgX6vXxSUNyRGpINgpjBZi1FFWApmabWpLKYcUzBLvX+leDjEc1KCBS8Yd2ZTEeCL2IlpN2IHZgZiEjO2oIg2CyMGvTnUv06Nz/nGxP0/WfVYh9BqHqT9cpOYaaecq9S4qHZpayfxfxtHRpZOTF6Dc+wAAAP//fVu2YAAAAAZJREFUAwD35pfVyAXT5AAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">daily.dev</span>
+        </a>
+
+        <a href="https://slashdot.org/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACXklEQVR4nGRTTWtTQRQ9b94kMW7sRuPG1NRvBFFiYkSkQsFvXSkoVheCCLpx24ULf4AgIihuBJEquhDpRpBqEdR+WlpCrUVtLCWYdFFswCZ5yYxnJk36mt7NezN37plz7rkjcfOaguM40Frbrz+4hWoFEC6YaxwzmfpCNor8xbVDLK6i68QZtG/bjtn5edx42Y2y5xFQNGpEHbLxrWNVKmiLbMSdk2dxbNdueKqKcqFAMi78NWIVg7qSchkX40lIVyC3sIB7H3rBRa3WVyPQHMwpr4L1GyK4nEzZsz3pMXyfycAJhvxEbYjmpgkD7pVwKXEAOyIReJTypP+zQYazdIE/ZDMBxcbJ8FrST9jbvmSmMfDrJxAKQWF1rGAgBJelEk7t2Yt4NEqvNO739aLKPcfkmuivBGBSmQOBAG4d6aAUgXQ2i9djo0AwaOlLOmAl+oAaADZRKiKxZSsOxtps854O9kMt/qN1Eqq4iArdUHQHPhBZvx2GotK4kkghJCV+zOXxbGjAMlKcxg4ja1Mr3k6kMf47Y/dNnaw1ltZR587NMdt9E93Dg8jlc9b764fb8ehCp93vOnocpx8+wKfJCYjQGgjUBsNOXieLW8JhFIpFPB8ZZjHxhcT5fXFUlcJfymmhQ+e4Bkfa4USbSdSaCw6Ovpo6ZNm8Gh3B5Mw0XFqHiocpMnEpcR2LTXzL/9GouaIlm+co3r4/GnWm5nIYz87i7vt3ZLVkGyXc7nmDAB1Itsbw4usQHn/sc0CmVa15nXnO5jiZ0EanJgnLAEYeh8v8B8jIozy4rrYvkgz+AwAA//+liaHwAAAABklEQVQDAAYuCQh+w2wjAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Slashdot</span>
+        </a>
+
+        <a href="https://tldr.tech/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADI0lEQVQ4jW2TS4tcRQCFT9Wtqnv79r39nMFphSGLYUQjrQMSBCEbQSFiUIRZ+g/cuHDtfxCX+QNDokREiTKQIJrBTXDhI46jGYJ2Z6b79uO+6nGrKouAC8lZn29xPjgET8kBEIw/Gr/d5+IzW1dsruuPH57+fXDlG6j/d9l/0MGBiEejthaCPvr9h+i3kxubz6eGERcHD/J08O/eB898/smVUmjtqsmk3N/f1wBAvPfki58OB3HQeo2LcI8For3MMvHznW9f4Ks/LlMKYru73790+c1fu/2BamxTGl3fq2x99N6lNzLy9dFRh3K8n8Txh2m3eyEMQ9I4R9bZQswmk4hSguHWSKb9vmaUeKWUz1erB0VVfepMdoO5wGy0RHJ1sLE5TjtpQCkFIQS9Xg/PbW8/2cmCFiGk5b1H2zlwzjtqOrlau/QO86QlKAtGNBTBonGQjYEIKHqCgfEnioxzWCoDbR1CFiAMw4AxPvIkEMxfv36xfPed5DTJ8Utu0DggoMArwwSjdgQAmFYK92Y5GgdwCryYcDSLdeK//OpisN9Ob2bb29vTKOHCEuwN+6jKGudViZBYFLXEcZYjtgTjfhfLVY75OkdzcpKIW99dYlOpd2RRwZQltFxhSizOZksI7pFNc8AYFFEf2lIkVmF+PgcXFCYvW7VUO/RPpd1CaYQhQ95I3L5/jEyViBqF/O6PKI7uIrISmSpx+/4xciMRRRyZNjhWxrG/TJNvSZ2kzrLhsIskjcECinq5QFFpEO9BpcRgMESnEyMUHMo6zGptp6Yp2BnnNyNH3lqU9VYUh6AEIFUFYxqwvVdB4NFYB1LXIFEE6SxkJbF0ZHbG+S2Gnd1rBTDO8mIrtA2EtXi2lmg7i95gCABYLheo8wL/aANFKVQpUXhMsLN7jam0fbbOMhXNOwhVG9RarKoSTGuEqzUAQGkNK0LUcQxHKVRRYb3MlErbZ6w8fSjNsDrxnL4c9nstEgSAs4DzILUGAHgAkAYoanhroRbLejWZnOj5XLJZlc1Tqw/rYvV6tLlxgcVtgJCnvRzwHk1ZQc7OHzV5dZg3xfwx8ci1BOs2pkYAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">TLDR Newsletter</span>
+        </a>
+
+        <a href="https://www.bleepingcomputer.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAohJREFUOI09kz1vnFUQRs/Mve/uZtdeOwY5xiFCQhZyJEpECjpa07ogDQ2/gYKKH0FFi2j8PxAVQsSKWyxIpCTIxo7X78f9mKF417nllWY0c84zAnBycnLv8PDwh6aZ7jbTaVaFWkxElfEZgKsqtZjUWum623h9dZUEkNPT058ODg6+lZpJOSEiCOCAiICDCIDgbgQRJvcWvLn4jwjIcrnxpGtb++7Hn/P5ZYqzJmAIKmAOuFPdqWY40Ln5918fydHnj0sEfHNjuXp7u5Jf/0nxg71DdZSJRBQheSHlRD/09H0mm3FO8T/frOQo52kEJMZICFHem8/ZCRPZ8sBivkBVue06bvrKaoDYZnJJbCs0pQhYjWtKIgLmlSDKbDJna3uHGAKEK7q+H1G64dWwatRaQSDeVTty14omBppmQmwC09igqogogoAIgoxQHYkA7s5dfa2Vtu9obq6JMXLT3pJSwUrFzXF3HB8VoR4BgooLUMzo2pZrG+hSIogy5ETXtaSSKFZGE8Laax0nqOYCwlAKZpXVqiOmHnehpEIuA0PK5JyxWqhBx6kRdIyHkEtha2PK44/us5jBJx9u8mh3Rte31JIpOWG1AI5i6HqNCFAs62zS+N9ve4bXV/Rdx4uXlSFVdBF4sLPk/K9/cQKizkVUOkZ6EbCUS93bfSBPv/zMzy4GNh8uqLkgomgQ3Jwv9ufYev8bUZ58/BBCk+Lx8fHO2fOz7cu9S//m0/cl5cGrVVQV9zH77o7qWrWBBjyVS377/cLlj2fPnt5fLn9ZrVauIUoIo+87XSKCimJu7/5rrcQmMp00fXz16vVXj/b3c9CQQoyKvIsE7mMDEVlTXx+3mauqNk3T/w9OmnPyOhCm4AAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">BleepingComputer</span>
+        </a>
+
+        <a href="https://thenewstack.io/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA3klEQVR4nKSTPQrCQBCFZyR90oqgNpax8KcT8QBGrL2ArUews7P3ArZCsBfERokg2mhhoY2tioWxGUk2xmx+NsU+WGb3Y5h9+2AVkJQCkpIekPF3sxe5yxOZe6LKiJI4NcfEDwhrshLzXj3kICBanAhuDzE3dLfEZzC1WG3riRxzGsY6IOtCsL2yQ7+RyqNPMA+stkr+LSLODSjenwBzr9ELScQdcRkMlxu2qeYBawVM45wD7W1D93hmB+MfXhKPOBisd6DaH4CsCtgpYxqPOHAaXQUSFvGfECQl/Zm+AAAA///3JBm9AAAABklEQVQDAKrQYgquI0cEAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">The New Stack</span>
+        </a>
+
+        <a href="https://www.kdnuggets.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABh0lEQVR4nISSPUgCYRjH77wztTyvLM0iEiRaXIpAGiqFGiLQilpqkloaJCgqaA2CGjJwcSiQqESaJCxwMKQlMKSGJJKUFOxDPTMtz4+Url460/z4T/8f7/N/nvd9eFGbvgP6lcka2TFHaBSL0PkpYVdnLUCbI6YzBVFFD0ZX3NyTtGci0JgCn5sQsGsYFD4TmYMT4p2EUKiMBA2IdrGdRutFzGB5pQyjZLWyH3MdSYEnU1nNpn9mzQ+wxIQ2ITo9zOdxEYBme/TsMk6fFgcYMDQqx0f6cIAPj6ldc/jOny4b4HFh3XL+6nsWwu5M/C2As45uGl4iGRYTrse+u0Tjn+NLnvOrRFHHggnNfCbt7c74tZuE/qlgSx9klvaBUKYGhasEfE/5x82qmgZlWJUAtb5e9S3wbBbDuC7Z0LRUClDyBtKG43AynQNI7XdIxq0UIN5y28ag25cEKJVw1MpGER8pG6Dk8qb2T/N/VjWAq+R4pQAl7WFocsUDfB0H0a+KtxZa0Z8xXwAAAP//cABH4QAAAAZJREFUAwAp/Hs8NCLd1AAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">KDnuggets</span>
+        </a>
+
+        <a href="https://lwn.net/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADQElEQVR4nHRSa2hTSRQ+M/fePHtLE5tsd1PdNm6za4rrrvsqLtWWtuz+2FcXG1n25f7RLYg//FEEFf0hKiqCiCAqFMEf2ggWjfhANFhf4KuVYOurPpo09mFrcpvc5N47M85NfRQfhzkzzJz5vvnOOYPhHSbL8jSEUJi7GghW3/++vjEE7zH8xl4wJ0VRFjHGFnIXGdH9fbGevfx4+os76C3AFDODLLT4/8UNP/w211nsoX/8s5TFEwP2tKJ0a2o2FolEhGQySV8CxKloxofJUNO0cIbPcgf/OH8eozjHauY3sWsXoxJPifAweWcKXC7iiWK+Cjf2/Hnha7YZzYFd1PNoI/ZORKB1Wdu/fX2928OdnfOmErxSwNnZ5IKMUChU2p/9CMjgVeT/ZhGuDQTR7bv9tQOJwdrZs6rr+b0vXyopELS0tFiWLG1d7/3Au6C75+YNh8MZamz+BQYHh4T++Dg6eXQfGLqhzyj3gaZrEldpvvS6oqej0abAzE9OFRglCdLpFPDk4elQDGLXzzO5rAZVVPiokkqhw51HlAOHDtenRpPXzRIUFAiMXRkZHr5fUlJckclkCGeX1FweVYonmLf2O6QVfQsSUsHjdjFi5C0CJtapbYO6ujoxkRy6tXrN+qqqmT5CCMXe0hKEdYXpFi9iRDUlE6vTI6iq3lsdWD4bwmHgVSdmF3A0epaUuUnrF74HeavVBpIkgsZLpDMLEiE/+Q62gzN7nFnHdssIdYgmuKBg3TrAQRXk35vn7hBk8a945mc64VqCiTaKLKDDk5Ex7mmo/tTFPtNXMYQoepqe6NJSxj7fr7fa0XCHp8jxYXnM6fZ+zAyZES0BSccKpDkXsFwqDhPKM7C7A6A92IC+Ku8FSkupUGLg9ONk5uTBy2WiUDSCHUWzXAAuwxQtSG5xmrKTOYI/ocl2A3R1RcGbu0CZ4MeYEQoaYIfdsDc2gyASO9BcNqXZbUIxEm38S0pgE8dg/9a/4WFuTu7xQIKdibTbb3ZUYYw1TpcVE/fG4kzP77zUHVQLXTi33d8gy7YGuViQKTH+03VLvm1TT9uxGFzlYfr5dEdl+1r/NreLVg6Pso1bVz7ZEh4fT5nY5wAAAP//VBEmpQAAAAZJREFUAwB+RGjsTonWIQAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">Linux weekly news</span>
+        </a>
+
+        <a href="https://www.phoronix.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZ0lEQVR4nJRSPU8UURQ972tmltl1+dpPQEOE1RU1ipJoojQkJMZGQkisbKWg4i9YaAGFJhY2JDQW2NpYgqEyWigkbjAkBl1YXRhx150ZZ2eeb5BFQ9ZEzuROJu+ee+875w7HPlYWVrTX1nK6vFPtgO9FPIDSIJBhLqCUsIB5eote6U50l8bujFmEkCDMESklnXkwM7y28WGy5FgXbXjxgEgNioG/IaUvJLOjVN/KRDuXcsdzc1PTU6tkdnZ2/OX7V48+GrtZ2abqNAaJZlCn4UynDr5TRz+SK8MDlyfZqfP5+Xd88zTrikG6PjSVNCsERhVSBf6EJKTmw49QkGQE21UrGXeNFK8Edh9iAr7rIVs2dq/0nJ0zNWMVYHZjtpKrHiJc1z23tPHm7hfDN+UxgYpXO8MZ56qlYvkS6Xjnp9s3bt7vHxz82kzE4ovF3tWd9YlSsG2GNUxwyrngBwRGKUzTbG6BgmEYisPQMEnTBKjg4oDARfgd+1c94qpBY2C4JM45aPhqQNcNmkm2mWq1YUQPhxaL9IQ07C9YCB2/JXhhS2DTKp24N//wWd2ve4enB9Ln5e/fsoXa5wRVpqPqoLUlaql6vqeJ6QKFoNxSKJeHSJPrS3UolXyS4Ah+OMiRxM9L+QsLSoHYm66uCOJKaISDkOYecE+Z7OjIHevbHr16/cnIyMhj3vDAd+sYjuWtawNDzx3Xtg8XE8phRgw71Zpcz53sXe7MZN4qIz3OWOPXlehoay9O3BqfVoky/hM0254utts6OmoGuhPpLXXm4AggxWJxtLBWGCMgQb4v/zTVlVo+SoNfAAAA//89/QU/AAAABklEQVQDAOCQ5tFk/iSOAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Phoronix</span>
+        </a>
+
+        <a href="https://www.computerbase.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="https://www.google.com/s2/favicons?domain=www.computerbase.de&sz=64" alt="Icon">
+            <span class="bookmark-name">ComputerBase</span>
+        </a>
+
+        <a href="https://www.pcgameshardware.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAByElEQVR4nIxSSUsjQRSurTutyUxmwBmcCTJLnAy456AgCqIQ8SDi3YsHD5704EHQ/yB49ix4EQRBQUQUFTy4oCIuuEVjlGg0LUknaburfFareHF5Bc17Xd/3vrcU84d64qqbCo7AMEavmxACY0wcNLhvo58JzEFjId5VkChBEKR2oDJ+I72DYvAlDhRLBz2c53xS8/GflMeMc26YtqrQO8vmQlDsGIKQyXoBqjCqqSyZzrpUheV53b1tDXoynTGt7XAsVBmAPMs7p18/5RT68qLx252TWDyRGp9a6WoPjS9sEa8nJ1j48yAcCwZ8Hc1VI9Nr3YNji5tHFQFf39Bk5DLxv+B7Z2t1d3tja20JyDEoVFHor4Jvo7MbZf4fxX/y9VTG64ESaOnf/JaakuiVfq0b0cuEZdsEI+otqj86vx4YnlnbOzNMq6bsd/k/X9LI7keu6oL+1d3I/Prh0lZ4Ym7TpuT44gZ/aerP3lmf3RqUnkqbRsaEMauMccFhCpQQaJ0Rkqspeiqdq7kYpcTDXDATIEAIF3Lq6HE/0ocDAI/mgtE+9GA/7YtDWiReWTOyOScgiN97Qi852FH4IEFIg37IBwnAgMdzDwAA//9dKsC+AAAABklEQVQDAFOD225Ebz5wAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">PC Games Hardware</span>
+        </a>
+
+        <hr class="separator">
+
+        <a href="https://stackoverflow.com/questions" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABZ0lEQVR4nJxRPUsDQRR8b+80uZhcEDvBKq3GXrASC4PYiYVoERQUMZxpFCy1sTGxCGgjQkxhaeEfsFQQTSFYWxv0jPm6yz7fdsG7HBenuI/d2Zl5swJCoJE3JvrtCQgBV0LFtmIb/xYAkpv8OP7cjaRCCyjHLyu2oL7Ns/YbAh4JTVRoGbRQAiDplV0vbMs4UYcSxUaJ/2v18ehhLw0hAPZOYgyGnDLT4rqAVakJRzrymRCWkoXmg28CNSfHv7JzxoxZ+v4wi60MENxxkY+u66bZchsIF/smqO2PJrVOK4uEXJzsIohzJxK51jvNNBFWkOS86iTcCHvRWZS4xZEzTL0VAgvx05+XXo7uOWQZ90jwTgBVdqzqGh24bT1Hw+66n59npZ4fme7KbpqvbZJbnyJ+MynBW09msTnXV+CyfEPZtRXfkdRtcIKUav4vz28E8kq4gOSf2CPAMQOLDRRQ8WBADOTmh18AAAD//8fuwK8AAAAGSURBVAMAZrOMLMrZOFwAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Stack Overflow</span>
+        </a>
+
+        <a href="https://serverfault.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAtUlEQVR4nMxSQQrCMBDctKu19gE5ixcPah/jQSk+zAdI0YOPUfyENy+hBRPXVjQtNJSFeHAgZBd2JpNhETyB58uVOIPpci5uswWF6vnuaTwEMHdADnkQxrY2SfCpNKBREHAEHqZoBLCh6EiCAE/g4XhiZbBZr8RuMu3MsjLodQAeiHT5gwyybMvKIM/3IpXyzzKo4Z9Bdey/RnECZaE69/exqieXA2qT+9y6BOxit8m1mKt24QUAAP//7Qb0xgAAAAZJREFUAwCs/DT9dSc6MQAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">Server Fault</span>
+        </a>
+
+        <a href="https://softwareengineering.stackexchange.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA8klEQVR4nLxRMQ6CQBDcM9r7AhITQ0OlAULpB2h4AdQ01hITbWit6HkD0FtSoBijfAAK9QvGZAUSyEEgESVOs3d7N3Ozc0P4EcO2g4Cf7QHIgu4hAU0MQpvuEejTQcDPl2nZ1e5shUO4aRPo10EddA4EweaPoQZ/cWCaJvq+30iQJAkMwyCNArIsY1YzsuM4FeL5cs3r2lhV+oNiwXHciWEYcF2301i0g7FlWZ0zGdAbXdef0BGlQBRFkziOR1kOqqp+yq+GWMyfZoGKojQSEPHVKlAgy2LKsigKQtm73R+QJDF4njei7+Yvpj+A8AXSsckbAAD//2QZTv0AAAAGSURBVAMAOURKPGkrIlEAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Software Engineering Stack Exchange</span>
+        </a>
+
+        <a href="https://stackexchange.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABIElEQVR4nKxSu2oCQRS9M26yhJDAlhLygDTp06WTkCppUqRKJQjio9JP8BMEUfAPRLSw11Z7RfC9PhHUZd1CRXcdX8uuyjCiB4a5M/eec+fMDAdbpNMa13waOUgoAB2jR1GI2mxovlpwu932s5TkMf4GBhStg08y/ZkErhD6YiEPp3MYzBZ6IwRnQj+BP6NotEJxvICGrOrr3L+ATAKnkI24nAV7pHxgodafQqU/OUpsBt/pFmhkIy5oIZBqYQt+qHUkqLYlKol4VW45zVqIeRRdACHEs5DXtQA3MvDXq9iy27x/+ynWO9IrCXtkdDdDk0n5HZjvqkSa+cS4M7sVo+PlN2R8HVc94Q4b8xjYIBMV7z4ZgPEnqlj9EOPe/LHcEgAA//+4Jh1TAAAABklEQVQDAEfbZJDA4+zcAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Stack Exchange</span>
+        </a>
+
+        <a href="https://www.reddit.com/r/de_EDV/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADJ0lEQVR4nExTWWhVVxRde5/zRofGF5qYPkvi0NZWOmhaW+JHq9JQ29KvfpS29KtYWwrSglDr+KGCiOOXAwoOKIo/GkHBCSQmoCSOoKDRF32oiS+J+JJ48+69Z7vvJYLnsu/d95y9zj5n7b0sdAhAFH/0NR/fgPGz/n0FQj6eZXoAkVb1d9AZtL6OIYwO+QhjUINNCv5dgQwXR0lIIBOqb9V8fQS7MYJ/qR0vIhzpToxmZBRwDEnM15AwAuqaEdIRCrxcnSSXHwq5r2ixbRFQHjyp6X5ECzzWIziFbEVKwQFVFMrCbIWtpmYcfZaVdXYmSh9/aV/M+wV+w4cVPeECjJgNEZZkHppg6QKcJo2WEmDn6d0cqNUDTnkZLHkrwNBva8X4HtUcXOk4upzVwwcyx8Lgb3UM0qkA9VMZj7pEPmgkmvMdquxE/Jm0qCoXMO78ATKF60D9dEJvwcHzrPKykGQuulGTf1vWtIg0zGAqFUETp8QkvGI44pMjTnsKkOo8qOuao2XfEgae3mUMYZLf9AOF02bqzZPivzkZpY7LCDwPYRDEFgyWUbraiaC2AWQTCN/7lIPZC0ix9azMk3/nGkp9AxKR339kJ2jR5wjaWpQIiqvtnzkMWvgZBk7oVxuir/epBPduIsIysvQwe6VN0ofWSFkR6Ul5vNHUiMyUqbDGwKiN+WRWPJfKjcegxmQOrJL0jU5BlrsobOb9HLpfw9r6oLi5w4ydUAXjDdHa9RvxsHBf8zlMnvYu/l/yD8LUWBnu60Hd4lkh9z+2YN7FTG6nWHKm2G3Se1dId+9zKgUGE3LVOHexTa0dueoc+l1SCqXnlNi3WvjJY4KhAM7todH+3671/wPDcKUvvqfe5r8oNX02yhU/Yl+yKYuR2x1Ud3KLy106FWIcJVCRbXQai2lUGIyvcUtF8w6GVR8ZRiX/vkhtg1JIIj33JFW8rT3tDMYjarjjGMRPaMcISSMSLoel2tNLdaekkHrOEfkaGI42QiSkVJSIPQrddhTwH91VScVimosZGtCp9Ulqx7hYiVE9tUDCKibNK3Dd5OSCzu6is7j8upxfAgAA//+a4e+pAAAABklEQVQDACEqX/Fsr+MSAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">r/de_EDV</span>
+        </a>
+
+        <hr class="separator">
+
+        <a href="https://devblogs.microsoft.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAArElEQVR4nNxSIQ7CUAx97TowCARBTmDwuDk8ISHBoxYuww1IOAUCvwTBEVAkaMwQJPC3X8ZXpMMg4aVNmrYvfWkr19kABqWLx/N8GuenlTAB+l4UfImfI1AwQ3AP21Y6VKVXrt2s6EVoTRaWUFU8HCVdSZOCyUqg5eFmB3ikvSjrbHHZKYvRJOvj3U7wKFw76+9x3oBtUaiRqhEzlCIwafPSis8ISjQEf/caTwAAAP//Y9ATXAAAAAZJREFUAwAJeS9CGoRv6gAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">MS DevBlogs</span>
+        </a>
+
+        <a href="https://github.com/readme" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtklEQVR4nIyTwStEURSH73szZCiFopTFlM00CzYayp9gpxTFQtkQZcfeghQLC81kFvakLEjZDCuJsLCYwoxig5JixpiZ5zszZ+r2snDq6517z/ndd96557kG8zzPMWr4A5CEe/iCnPpbEDM+s4V1PJZhGhpq2768HGzAouM45UoAoctTxDswZP5nuzAKJVdPWlHxMYxBCj4hCxn1TzV2CMOwJFqpoF8FAYizOcNeEL8D3vSNrfBKrEBsHX8WvmFQEqegXhOLJMhBJZKfrJKfpdEaK+rLGmFSNtM43ZCHXoRp7YuH72mDK02UNRbGvYEmuJbETu3yCzxoYrkmrgmt9aNUpH7YVbGnJ4bsmfCbxuSKm1UXcLXTYm0Q0zKDvuGSzaBWIU1v15dmXb0eo1cl0xYhsfjHJ0iDo6Y6SEYrOJED4rpIwgXckrgHPVYFUdjGPYMIyOwUICFlXRLcZDEHfXAntwEf1ufLDU2oL+McgjW0V/YoH0EXLECG4LlVgTQuY6rDJbYPI/Dj+JISMK5bLRzyrjHpuvglzZmXqZRYsNZlrFKm/Lam+l/krU+QsV2FA/JSlsb7BQAA//8fGtSHAAAABklEQVQDAIsg4TDVy+61AAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">GH ReadME</span>
+        </a>
+        
+         <a href="https://www.martinfowler.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAB3klEQVR4nGxSS0gbQRie185uyDatTe2lCIUWDxX6sLTSHKrtRUnbc4u9l4ZSWgTB10EQwZMHweBdUE8iHsST+EJEvaggiCiIkHjwuSbRZHdm/LOjoklmYXfnn/97/P/8zLwXRf7CGKOipZQSSs18aqguCwuF1493mT6QUgkhNASSNJ4QTAkpoGA6IxDgwaAlhIQt5wZE3Jznul46c1Ggyxij6WOn8cfneN/fs9S5YbBE4hBIql48jQ+M/4n1Wvft2wACTqyQPTQy1d0z/Lj8weraTqT2X6T2/8Tk0utXzxAS6G5tBAxTSnIpJ5kEYrS9nXAOTpyDRGfX4MLiBsIGlHcHcP1DuWnAJ5dzEcr09bft7x81N8UDoaCUsiRA6ba+ra5saf8d+/UtHA4hDhSqRJeu7sF/27ZV9/EldCIvpQqzbytg3f7ZufWG+tjo2LyELS4W8BV8L14qfZEnoEBBvv/shluzTC6LRAhYd11hP3z0NVoD+8rnT95F3nPOIF7CEACAKXuW+RKtiXyoWl7ZrKgo72htzGZdkMWlAFgPHxTgeSLP6nuA+77JgOGbrqt/UxaW18NHdBmcU90q5T866FeuTMoD1BCImNRgSjqaqdixjoDm5ukeVQ6M95aTvAQAAP//WHnC/gAAAAZJREFUAwA7ica6ybgemwAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">Martin Fowler's Blog</span>
+        </a>
+
+         <a href="https://krebsonsecurity.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAjElEQVR4nNyS0Q3AEBCGr9JNrODBIibxYgRmsYgHK5jl2mto0EqbeHMJcdz/3S/sMBk7TMbiAKzW26hoePA3mFIKc7d6wEeOWQeMcz6kxxiHLouOWWs3Y8wrQAgBIQTs96medBeAph5ydsbiQErZQGrxwx4JnXOXvZQSeO/hvOuda60J2GimX2GBr3wAAAD///z+9PkAAAAGSURBVAMAtl09Fe0qa54AAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Krebs on Security</span>
+        </a>
+
+        <a href="https://www.kuketz-blog.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAypJREFUOI1tU1toXGUYnO875+wlu5tdjdpsMZoqeKm2NC0BLy0kgkgRq7QEixRthQo+BqQVKvoHmqS0mrdGWxFFFLVRkUgTaGlXsCkmIV0fQhNjabNZTdJkN5e9nb2c83++uNVe5mlgZj74YAb4H0QUV7lS4FhcRWJxFVEKfCcPANB/AcVKKf3r+AcP+IL+dwB6FoIwQCCSVYEMFXP2h9ue7Jipem8cUAqsFPTw1cNtHo+31ynpC9rQX5ZdGivCRq34trDBrxumsdWtuG83P3Tw+2qGREBEkNGrXTtAximvj3ZujB4YwB0Qn+58saL5h7Lkd259+PCAUmDu6FAUG1dBAZ+sVOTNjdEDAwdPHAmLgNrU8WCbOh4UAb114ki4qfHQ6XwxvbdgL3x86mK7/8YLlxJd70O4dXPju627O08mRBPZqDzvhzUIAKulyva7/d6zy7mMHuxubzw3se+MAcRaHv+8m39PdO5JZ4xnSmW6NnJN1bsOtOX1NtTAHCGmdSBaVxfwDq+WKw2XE6nSpbl995bKfGUubTafn3hjFycXPK/1fH3Po2dG/VueaNTNy1nqNSxThCgkWmuToTP5Yu3U34uSXJTe9fWZzV+crt20v7t+w/S891UOB92/gjUuCMhayM+PTervynbBIUAMZuSLZUzMzKFs5x096elzUVkwGdm6sKvrwm6Smx6bfs/vcy/+mfBc9tBHo09tsGzX1UVm5pLjuBMzc27JcYnA9tpN2XKA+uNjU94rAZ87tKNpuotD9MlCpmB+WnKMV55u7/HbXts2mNnRIn/MLlm2S5bBLCJiVHyhIlr2+mybX15Z4c+IzqVZKcU/qf2/EGH4/kigrwXri1rEmUzOU2pp6RiJc0wEAOAs9qncg9E13xDht9kfu4egwNUq03b1VShkFGICYCp5/ZF0puBDwLsmk1nFXVbNdWKxRWNcICjk3BdS/UdzAKQ6DBlUezKR+6LbZlMrI0u5Alkey3QKdrTG9ETJNEwRIhDiM8u51lT/0SwAuWlM/3IBgLW7DzWYpJ9bcYo/A0DE43vJcUvnZ7/tSd7qvR3q5rneIt6m/QNL6I+iGO2D0QAAAABJRU5ErkJggg==" alt="Icon">
+            <span class="bookmark-name">Kuketz IT-Security Blog</span>
+        </a>
+
+        <a href="https://www.borncity.com/blog/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAoRJREFUOI2lUzlrlVEQPXPv3PvWvIdgjIlLFxFXXCqVoD9AOxGtFMTEfQER1OLZCHaCWmh+gajpLENCFhW0sRBERBSiD8Woeclbvu8uY+FTI8RCnGrgnBlmzpwB/jPoZ5I/M9Ztgs5LSIm0FadDo3G9rwqByj3e221FZecXuuAajb6hKgFC5VMTmxl0u43VAJRAQq2Z8kE5fHk6i8JdEuSgMCcCIqAAgReFs5QbGF6Wt5n7IHTEEPtF9BRRWK40BuFNLWwZuaBWP78K4SshNl8DgNZ2KSLdImAJsy4WAIdU1JHZmzsetad4Vzo9fshEOi/eGKg4F5vh1cyuobdt/E3H6P5jlumBymRSgKjujLxHpaKwc4RREVVbNPw0rZf7Y++LKeU528q2/hAvqOQtSBJOEiDDoiUqg0olAogY/UGaRWU6e3x3ybqiyaZ2pZrYk1pik5D2HNUKRHziDBOJQKwDF06OLHeR8yQ+CgUVXM+smb6mUE6XsDUPtOcWRFSBlRIJUx5+gJOmI5Mznil2EvFFy7QKYhogLoFqX+O7tRVseOZFFP2xA4gAgDM5IyKifPBVgrpEsEUvPtHGrwL4MhF3QMmHkMjRxLpX1sHqVnCBdRcT3+DEi1hNBbG288v17Y9/9u88/7ARmrmaZ4AlpqzUy2/b7lWbbbw8fqCLIL3sQ1q3OgMrMrjoxFh/iOEjaSshSXshUmIPAKoYCRvLk/vykkbSjKUEuSlA8sOJx59sYu3vgEggUm+bvIigZ9z6yYtm3dOriFwGZK49QBFETsid+/0LJyZ6OKr8L40ygGui2Vzz7HNu6/hiA+TmS+h9qDf6hqr/8HcLx7zTCP2FIhAsjBHkO3rMKmSxSjBGAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Borns IT- und Windows-Blog</span>
+        </a>
+
+        <a href="https://blog.fefe.de/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAA70lEQVR4nGSSwRWDQAhEjY8O3B6824NFWKFF2IN3K/Cy20Mm/s2E98LBhzAMA2zc9z18rdbaWpvn+bqu8zyXZZGvYCmFrJwY/kzoaZrs40AkJ1RHqDymhLj1u67rcRxy1EdBKAQeacdP7uM49QaMzolm33dy27bB7a+ypLqkzAdCJhny6eDg6OHEQZThYMno9tjLa2WnFLAcBmV0l3VJQMUn9V6lpQKlPjLaQr170FlYUMoAcvJyfZDM8uuQX4G+EuaGcCkoQFicudmGX4evhB9ZLk5WrDJdk1cI4LNWL4phsmJHkNRncM73zuazYG8AAAD//+Y1O6IAAAAGSURBVAMAvdPCtON1tBkAAAAASUVORK5CYII=" alt="Icon">
+            <span class="bookmark-name">Fefes Blog</span>
+        </a>
+
+        <a href="http://scripting.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABj0lEQVR4nIzTOyjFURzA8XPP/7KQR/LOIywiSgweYaDEYBVF2RkMsslqkMViMFIMDDJZlFERBoUSC/JOXuH6/u75/et0o5z63HPv7Tx+53d+JzCuRbQvxSc+zD9b4PXpmEQ2ulCEA1jEfpkrm1qrA77QgB3UIAX1OtD+sbks+h2VD1SjCVtYQyueENXFE3cWxSiU1QvRgyns6gRZYN+4fAQq6vWyaRVWAt25Eo14xCn2vHzshuF6fa0ucB5mvx25aMYMzlCGIbThHcl4wyuuMIrZeCZ1VWndqMMc7lGBY+/8zyjBAwbkdzjZ6tk2MIZNTdSJcbexpFFM4E7nSGSrkYTsSrvQweUJ0WXoztKGcYN1/45jOuEILfpfoGe33mT5nqb5iNeB3+T3IS4xgg4vAllswbg6uUZmOMFvMkjegRRWPnr1aGEpj2t0i5jHcmKZviDVuCpM8qKKaD+NPhQYd502fExhAuU9yFVl4da4x2S8CCSqbM1HDratF7q0TgwaV1QSpn/N0ucZV1z9egT7AwAA//9ZMhYVAAAABklEQVQDALsEW9HTg2z0AAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">Scripting News</span>
+        </a>
+
+        <hr class="separator">
+        
+        <a href="https://programmerhumor.io/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACf0lEQVR4nKRSzUtUURQ/5368NzOO6ahlZuSigjChRRAt+qDoXzAoqI0LqUXUImhl46JlgUEf08JlkLppEy4KcRMFGUGiTaTpCI5Bjkwzvpn33r33dN/YZIHUwt/l3svl/s45v/MhWvLD3QW/2CQJDSiNIQDsdht1l5vMvW2/+A0iEKBdBFsAW3OPJ1a1dxpDoywTIy4HJKah4MSc8aZ1PbDccz0HlGYA3QijoxuWvdFxmHDP/KPnRVU5hZoCG4PZMBSSkTohm01cglsOs11O49nsvr7lLRVcnZ5Iuk2+Q0nXxFBglRRNff8qP3HvTDGo3lMtic5kSd3eW0mOLSZVn/TCnMtooUp4IsEdH+EfSGXv3ym2u7fcQnWs03MnFzrjD2hlDZBxULsaIb5SIlYrEBH+fUf5Ahijy1YkGDJCAwawWg5NECoIw7VkofK0QThDYqO6dSG1GzPvOvjd3JOji17pMgWKcQ2zHMUP4EZyx/HbeOxSfn//C8sm0bqUGVql6hEeKGWsBIGc3VBeW1hWh8IdruOuq2IHM5lQ+yfBkcDLfi4/kBrHqKmDaSaY0sdQwHGQHEQibl0Y8EMr2COV0Oz1To035w5cW+qaeZiIBiLgpoTnXjIrVgOkSZChMhHoFg9fNQXmWcUPRDnGiq2p1Pxc2+IUQtpEdeHTaBA386xD2JdBV4L06MOXg1eG6x/FOpMyErA/1B9rtpohaj216YDZuicoLrhGau6lEQ7TaQdGejmkNzphm2lqpoiC4g43BA1w4fPvsRZSOu9FRTki5s6O4nlt5RroiTrza2QHZ2pk5CIvA/MGhcyGk39MYnSkrRK7DfwHW/EQtgkB28RPAAAA//9RJ2JmAAAABklEQVQDAK5LKYNX7ioIAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">ProgrammerHumor.io</span>
+        </a>
+
+        <a href="https://www.aprogrammerlife.com/" class="bookmark-item">
+            <img class="bookmark-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABpElEQVR4nKTSzyuDcRwH8Pd3e5iE/EpRhPw4KGdyISVCuLgg3J2c5MIf4OKkXLiQxHCZFacpKZdJIilKmGHKj9E2+3p/t+9mntph7VOv59me5/u8vz8NpFmGVko5dE5jVERuclEw0tLuKUE4YxkCmzgtXMKsCKvHFmqgS1rRoUM0R3u0kNBXJz/ughDDmIGMPVUBj/p3tf4/TZPkp3HdASBFT/QudxjyL+CdniibyumY5ulEv6/FuldNr41C/HgfCWXRPXn0WlTokWxQk56/G4a1Wa/LGQoKLswBajjXJKhGN+yjN5qgG+qOvJfSiTYRMgdAB6iqQnQnRvTcF7EuM9lFR6QjYXXAVIa+X+l7LX3Q6l+T13pe6ugeP/lHyQJiI6g0N4CVW6eugBODIpAs4JbUS3Wgsug73kLInsgqCenAxvMoLKIRYbkLW+AQvWX+WMADfVExoot4Fw8IY5srFUBGpgvB4BrD2rmVkwjYvLC/TImE0ajD46Ut+jQPFbPSgkbfKA9UP0fTyqA87sqAQKolpcCKLxc20QIZOkg9wFQG0qxfAAAA//+WJjX+AAAABklEQVQDAOPOc4OZOsZdAAAAAElFTkSuQmCC" alt="Icon">
+            <span class="bookmark-name">A Programmer Life</span>
+        </a>
+
+        <hr class="separator">
+
+        <div class="footer">
+            <p>
+                <a href="https://github.com/guidokl/devitreads">GitHub Repository</a>
+            </p>
+            <p>
+                <a href="https://www.flaticon.com/free-icons/bookmark" title="bookmark icons">Favicon by Smashicons - Flaticon</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+
